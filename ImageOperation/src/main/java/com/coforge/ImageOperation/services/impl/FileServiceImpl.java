@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.UUID;
 
 @Service
 public class FileServiceImpl implements FileService {
@@ -17,9 +18,16 @@ public class FileServiceImpl implements FileService {
     public String uploadImage(String path, MultipartFile file) throws IOException {
 //       File Name Extract
          String name=file.getOriginalFilename();
+         //abc.png
 
 //        path create upto file(FullPath)  File.separator->/
-         String filePath=path+ File.separator+name;
+       //random name generate for file
+        String randomId= UUID.randomUUID().toString();
+        String filename1=randomId.concat(name.substring(name.lastIndexOf(".")));
+
+        String filePath=path+ File.separator+filename1;
+
+
 
 //        create folder if not created
          File f=new File(path);
