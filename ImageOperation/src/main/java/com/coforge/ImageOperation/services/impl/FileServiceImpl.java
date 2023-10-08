@@ -4,8 +4,7 @@ import com.coforge.ImageOperation.services.FileService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.UUID;
@@ -18,9 +17,10 @@ public class FileServiceImpl implements FileService {
     public String uploadImage(String path, MultipartFile file) throws IOException {
 //       File Name Extract
          String name=file.getOriginalFilename();
+
          //abc.png
 
-//        path create upto file(FullPath)  File.separator->/
+        //path create upto file(FullPath)  File.separator->/
        //random name generate for file
         String randomId= UUID.randomUUID().toString();
         String filename1=randomId.concat(name.substring(name.lastIndexOf(".")));
@@ -39,5 +39,12 @@ public class FileServiceImpl implements FileService {
          Files.copy(file.getInputStream(), Paths.get(filePath));
 
          return  name;
+    }
+
+    @Override
+    public InputStream getResource(String path, String fileName) throws FileNotFoundException {
+        String fullPath=path+File.separator+fileName;
+        InputStream is= new FileInputStream(fullPath);
+        return is;
     }
 }
